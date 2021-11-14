@@ -10,33 +10,62 @@
     <link rel="icon" type="img/svg" href="assets/icon/favicon.png" />
 </head>
 <body>
+
+    <!--header-->
     <header class="header">
         <div class="header__search">search</div>
         <div class="header__cart">
             <img src="assets/icon/shoppingcart.png" alt="shoppingcart">
         </div>
     </header>
+
+    <!--frontpage-->
     <div class="frontpage">
         <h1 class="frontpage__title">Proud Puppy</h1>
         <p class="frontpage__quote">Clothes to dress up your best friend</p>
-        <img src="assets/icon/down-arrow.png" class="frontpage__arrow" alt="down-arrow"> 
-    </div>    
+        <a href="#preview">
+            <img src="assets/icon/down-arrow.png" class="frontpage__arrow" alt="down-arrow"> 
+        </a>
+    </div>   
+    
+    <!--website content-->
+    <div class="preview" id="preview">
+        <div class="preview__section">
+            <img src="assets/img/knittet.jpg" class="preview__img" alt="dog in sweather">
+            <div class="preview__text">
+                <h2>Clothes</h2>
+                <p class="preview__description"><i>Tops, bottoms & onesies</i></p>
+                <button class="preview__button">See clothes</button>
+            </div>
+        </div>
+        <div class="preview__section">
+            <img src="assets/img/sunglasses.jpg" class="preview__img" alt="dog in sweather">
+            <div class="preview__text">
+                <h2>Accessories</h2>
+                <p class="preview__description">Hats, sunglasses & costumes</i></p>
+                <button class="preview__button">See accessories</button>
+            </div>
+        </div>   
+    </div>
+    
+    <!--footer-->
+    <footer class="footer">
+        <h3 class="footer__item footer__title">Proud Puppy</h3>
+        <div class="footer__item footer___pages">
+            <h4><u>Pages</u></h4>
+            <p>Clothes</p>
+            <p>Accsessories</p>
+        </div>
+        <div class="footer__item footer__contact">
+            <h4><u>Contact</u></h4>
+            <p>tlf</p>
+            <p>mail</p>
+            <p>some</p>
+        </div>
+    </footer>
+
+    <script src="js/frontpage.js"></script>
 </body>
 
-<div class="preview">
-    <div class="preview__section">
-        <img src="assets/img/knittet.jpg" class="preview__img" alt="dog in sweather">
-        <div class="preview__text">
-            <h2>Tops and bottoms</h2>
-            <button class="preview__button">See more</button>
-        </div>
-    </div>
-    <div class="preview__section">
-        <img src="assets/img/sunglasses.jpg" class="preview__img" alt="dog in sweather">
-        <div class="preview__text">
-            <h2>Accessories</h2>
-            <button class="preview__button">See more</button>
-        </div>
-    </div>   
-</div>
+
 </html>
