@@ -1,5 +1,6 @@
 :root {
-    --light: #f0e7d6;
-    --preview: rgb(82, 80, 80);
-    --main: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    --light: #f1ebde;
+    --serif: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    --sans-serif: 'arial';
+    --dark: rgb(46, 36, 25);
 }

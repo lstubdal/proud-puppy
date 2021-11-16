@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proud Puppy</title>
     <link rel="stylesheet" href="css/variables.css"/>
     <link rel="stylesheet" href="css/reset.css"/>
@@ -10,12 +9,36 @@
     <link rel="icon" type="img/svg" href="assets/icon/favicon.png" />
 </head>
 <body>
-
+    <!--shoppingbag-->
+    <div class="shoppingbag--display">
+        <div class="shoppingbag">
+            <div class="shoppingbag__container">
+                <div class="shoppingbag__headline">Order summary</div>
+                <div class="shoppingbag__product">
+                    <img src="assets/products/clothes/striped-shirt.png" class="shoppingbag__img"alt="product"/>
+                    <div class="shoppingbag__title">product name</div>
+                    <div class="shoppingbag__price">price</div>
+                    <div class="shoppingbag__quantity">quantity</div>
+                    <div class="shoppingbag__remove">remove</div>
+                </div>
+            </div>    
+        </div>
+    </div>
+    
     <!--header-->
     <header class="header">
-        <div class="header__search">search</div>
-        <div class="header__cart">
-            <img src="assets/icon/shoppingcart.png" alt="shoppingcart">
+        <div class="header__search">
+            <img src="assets/icon/search-dark.png" alt="search icon">
+            <p class="header__text">Search</p>
+        </div>
+        <nav class="header__nav">
+            <a href="#clothes" class="header__text header__text--large">Clothes</a>
+            <p> | </p>
+            <a href="#accessories" class="header__text header__text--large">Accessories</a>
+        </nav>
+        <div class="header__shoppingbag">
+            <img src="assets/icon/shoppingbag-dark.png" alt="shoppingbag">
+            <p class="header__text">Shopping bag</p>
         </div>
     </header>
 
@@ -24,48 +47,64 @@
         <h1 class="frontpage__title">Proud Puppy</h1>
         <p class="frontpage__quote">Clothes to dress up your best friend</p>
         <a href="#preview">
-            <img src="assets/icon/down-arrow.png" class="frontpage__arrow" alt="down-arrow"> 
+            <img src="assets/icon/down-arrow-dark.png" class="frontpage__arrow" alt="down-arrow"> 
         </a>
     </div>   
     
-    <!--website content-->
+    <!--preview content-->
     <div class="preview" id="preview">
         <div class="preview__section">
-            <img src="assets/img/knittet.jpg" class="preview__img" alt="dog in sweather">
+            <img src="assets/clothes.jpg" class="preview__img" alt="dog in sweather">
             <div class="preview__text">
                 <h2>Clothes</h2>
                 <p class="preview__description"><i>Tops, bottoms & onesies</i></p>
-                <button class="preview__button">See clothes</button>
+                <a href="#clothes" class="preview__link">See clothes</a>
             </div>
         </div>
         <div class="preview__section">
-            <img src="assets/img/sunglasses.jpg" class="preview__img" alt="dog in sweather">
+            <img src="assets/accessories.jpg" class="preview__img" alt="dog in sweather">
             <div class="preview__text">
                 <h2>Accessories</h2>
-                <p class="preview__description">Hats, sunglasses & costumes</i></p>
-                <button class="preview__button">See accessories</button>
+                <p class="preview__description"><i>Hats, sunglasses & costumes</i></p>
+                <a href="#accessories" class="preview__link">See accessories</a>
             </div>
         </div>   
+    </div>
+
+    <!--clothes-->
+    <div class="clothes" id="clothes">
+        <div class="clothes__header">
+            <h2 class="clothes__headline">Clothes</h2>
+            <p class="clothes__text">for your bestfriend</p>
+        </div>
+        <div class="clothes__products"></div>           <!-- clothes elements created in js-->
+    </div>
+
+    <!--accessories-->
+    <div class="accessories" id="accessories">
+        <div class="accessories__header">
+            <h2 class="accessories__headline">Accessories</h2>
+            <p class="accessories__text">for your bestfriend</p>
+        </div>
+        <div class="accessories__products"></div>       <!-- accessorie elements created in js-->
     </div>
     
     <!--footer-->
     <footer class="footer">
         <h3 class="footer__item footer__title">Proud Puppy</h3>
-        <div class="footer__item footer___pages">
-            <h4><u>Pages</u></h4>
-            <p>Clothes</p>
-            <p>Accsessories</p>
+        <div class="footer__item">
+            <h4 class="footer__pages"><u>Pages</u></h4>
+            <p class="footer__text">Clothes</p>
+            <p class="footer__text">Accsessories</p>
         </div>
-        <div class="footer__item footer__contact">
-            <h4><u>Contact</u></h4>
-            <p>tlf</p>
-            <p>mail</p>
-            <p>some</p>
+        <div class="footer__item">
+            <h4 class="footer__contact"><u>Contact</u></h4>
+            <p class="footer__text">Tlf: 98 76 54 32</p>
+            <p class="footer__text">Mail: client@proudpuppy.com</p>
         </div>
     </footer>
 
-    <script src="js/frontpage.js"></script>
+    <script src="js/app.js"></script>
 </body>
-
 
 </html>
