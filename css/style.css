@@ -16,7 +16,7 @@ body {
     text-align: center;
 }
 .shoppingbag--display {
-    display: block;
+    display: none;
 }
 .shoppingbag__container {
     display: flex;

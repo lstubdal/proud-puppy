@@ -19,6 +19,34 @@ const products = {
 
 const shoppingbag = [];
 
+function addToBag(event) {
+    const title = event.target.id;  
+
+    // if product already exist, increase quantity++;
+    shoppingbag.forEach((product, index) => {       
+        if (product.title === title) {
+            product.quantity += 1;
+            shoppingbag.splice(index, 1);  
+        }
+    }) 
+
+    // add clothes 
+    products.clothes.forEach(product => {
+        if (product.title === title) {
+            shoppingbag.push(product);
+        } 
+    })
+
+    // add accessories
+    products.accessories.forEach(product => {
+        if (product.title === title) {
+            shoppingbag.push(product);
+        } 
+    })
+
+    updateShoppingbagView();
+}
+
 function setUpClothes() {
     const product_container = document.querySelector('.clothes__products');
 
@@ -43,6 +71,7 @@ function setUpClothes() {
         descriptionElement.innerText = products.clothes[index].description;
         priceElement.innerText = products.clothes[index].price + ' €';
         buttonElement.innerText = 'Add to bag';
+        buttonElement.id = products.clothes[index].title;           // add ID to products for addToBag/removeFromBag function
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
@@ -53,53 +82,86 @@ function setUpClothes() {
         product_container.appendChild(product); 
     }
 }
-
 function setUpAccessories() {
-    const product_container = document.querySelector('.accessories__products');
+    const productContainer = document.querySelector('.accessories__products');
 
     for (let index = 0; index < products.accessories.length; index++) {
 
         const product = document.createElement('div');                               
-        const img_element = document.createElement('img');                      
-        const title_element = document.createElement('h3');
-        const description_element = document.createElement('p');
-        const price_element = document.createElement('div');
-        const button_element = document.createElement('button');
+        const imgElement = document.createElement('img');                      
+        const titleElement = document.createElement('h3');
+        const descriptionElement = document.createElement('p');
+        const priceElement = document.createElement('div');
+        const buttonElement = document.createElement('button');
 
         product.className = 'accessories__product';
-        img_element.className = 'accessories__img';
-        title_element.className = 'accessories__title';
-        description_element.className = 'accessories__description';
-        price_element.className = 'accessories__price';
-        button_element.className = 'accessories__add-to-bag';
+        imgElement.className = 'accessories__img';
+        titleElement.className = 'accessories__title';
+        descriptionElement.className = 'accessories__description';
+        priceElement.className = 'accessories__price';
+        buttonElement.className = 'accessories__add-to-bag';
 
-        img_element.src = products.accessories[index].file;
-        title_element.innerText = products.accessories[index].title;
-        description_element.innerText = products.accessories[index].description;
-        price_element.innerText = products.accessories[index].price + ' €';
-        button_element.innerText = 'Add to bag';
+        imgElement.src = products.accessories[index].file;
+        titleElement.innerText = products.accessories[index].title;
+        descriptionElement.innerText = products.accessories[index].description;
+        priceElement.innerText = products.accessories[index].price + ' €';
+        buttonElement.innerText = 'Add to bag';
 
-        product.appendChild(img_element);
-        product.appendChild(title_element);
-        product.appendChild(description_element);
-        product.appendChild(price_element);
-        product.appendChild(button_element);
+        product.appendChild(imgElement);
+        product.appendChild(titleElement);
+        product.appendChild(descriptionElement);
+        product.appendChild(priceElement);
+        product.appendChild(buttonElement);
 
-        product_container.appendChild(product); 
+        productContainer.appendChild(product); 
     }
 }
-
 function displayShoppingbag() {
-    const shoppingbag_display = document.querySelector('.shoppingbag--display');
+    const shoppingbagDisplay = document.querySelector('.shoppingbag--display');
 
-    if (shoppingbag_display.style.display === 'none') {
-        shoppingbag_display.style.display = 'block';
+    if (shoppingbagDisplay.style.display === 'block') {
+        shoppingbagDisplay.style.display = 'none';
     } else {
-        shoppingbag_display.style.display = 'none';
+        shoppingbagDisplay.style.display = 'block';
     }
 
 }
+function updateShoppingbagView() {
+    const shoppingbag = document.querySelector('.shoppingbag');
+    const shoppingbagContainer = document.querySelector('.shoppingbag__container');     // container for shoppingbag content
 
+    shoppingbagContainer.innerHTML = '';    // to reset the cartview
+
+    for (let index = 0; index < shoppingbag.length; index++) {
+        console.log(shoppingbag.length)
+
+        const product = document.createElement('div');      // create container for product 
+        product.className = 'shoppingbag__product';
+
+        const imgElement = document.createElement('img');
+        const titleElement = document.createElement('h4');
+        const priceElement = document.createElement('p');
+        const removeButton = document.createElement('button');
+
+        imgElement.className = 'shoppingbag__img';
+        titleElement.className = 'shoppingbag__title';
+        priceElement.className = 'shoppingbag__price';
+        removeButton.className = 'shoppingbag__remove';
+
+        imgElement.src = shoppingbag[index].file;
+        titleElement.innerText = shoppingbag[index].title;
+        priceElement.innerText = shoppingbag[index].price;
+        removeButton.innerText = 'Remove';
+
+        product.appendChild(imgElement);
+        product.appendChild(titleElement);
+        product.appendChild(priceElement);
+        product.appendChild(removeButton);
+
+        shoppingbagContainer.appendChild(product);
+        shoppingbag.appendChild(shoppingbagContainer);
+    }
+}
 setUpClothes();
 setUpAccessories();
 
@@ -107,8 +169,20 @@ setUpAccessories();
 /*********** EVENT LISTENERS ***********/
 
 /* shoppingbag */
-const shoppingbag_button = document.querySelector('.header__shoppingbag');
-shoppingbag_button.addEventListener('click', displayShoppingbag);
+const shoppingbagButton = document.querySelector('.header__shoppingbag');
+shoppingbagButton.addEventListener('click', displayShoppingbag);
+
+/* add to bag */
+const clothesButtons = document.querySelectorAll('.clothes__add-to-bag');
+const accessoriesButtons = document.querySelectorAll('.accessories__add-to-bag');
+
+[...clothesButtons].forEach(button => {
+    button.addEventListener('click', addToBag);
+});
+
+[...accessoriesButtons].forEach(button => {
+    button.addEventListener('click', addToBag);
+})
 
 /* 
     1. header color when scrolling
