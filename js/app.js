@@ -7,6 +7,7 @@ const products = {
         {title: 'White hoodie', description: 'Soft cotton hoodie', price: 11, file: 'assets/products/clothes/white-hoodie.png', quantity: 1},
         {title: 'White t-shirt', description: 'Soft cotton t-shirt', price: 9.90, file: 'assets/products/clothes/white-shirt.png', quantity: 1}
     ],
+
     accessories: [
         {title: 'Sunglasses', description: 'Vintage round glasses', price: 5.90, file: 'assets/products/accessories/sunglasses.png', quantity: 1},
         {title: 'Beanie', description: 'Orange beanie', price: 8.90, file: 'assets/products/accessories/beanie.png', quantity: 1},
@@ -21,8 +22,9 @@ const shoppingbag = [];
 
 function addToBag(event) {
     const title = event.target.id;  
+    console.log('title', title);
 
-    // if product already exist, increase quantity++;
+    // if product already exist, increase quantity;
     shoppingbag.forEach((product, index) => {       
         if (product.title === title) {
             product.quantity += 1;
@@ -47,7 +49,45 @@ function addToBag(event) {
     updateShoppingbagView();
 }
 
+function removeFromBag(event) {
+    const index = event.target.id;
+    const currentProductTitle = shoppingbag[index].title;
+
+    shoppingbag.forEach(product => {
+        if (currentProductTitle === product.title) {
+            resetQuantityNumber(product)
+            shoppingbag.splice(index, 1);
+        } 
+    })
+
+    updateShoppingbagView();
+
+}
+
+function totalProductsCart(){
+    console.log('length: ', shoppingbag.length)
+    return shoppingbag.length;
+}
+
+function totalPrice() {
+    let total = 0;
+
+    shoppingbag.forEach(product => {
+        let tempPrice = product.price * product.quantity;
+        total += tempPrice;
+    })
+
+    return total + ' €'
+}
+
+function resetQuantityNumber(product) {
+    if (product.quantity > 1 ) {        // reset quantity if all of the same product is removed
+        product.quantity = 1;           
+    }
+}
+
 function setUpClothes() {
+
     const product_container = document.querySelector('.clothes__products');
 
     for (let index = 0; index < products.clothes.length; index++) {
@@ -71,7 +111,7 @@ function setUpClothes() {
         descriptionElement.innerText = products.clothes[index].description;
         priceElement.innerText = products.clothes[index].price + ' €';
         buttonElement.innerText = 'Add to bag';
-        buttonElement.id = products.clothes[index].title;           // add ID to products for addToBag/removeFromBag function
+        buttonElement.id = products.clothes[index].title;       // add ID to products for addToBag/removeFromBag function
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
@@ -82,7 +122,9 @@ function setUpClothes() {
         product_container.appendChild(product); 
     }
 }
+
 function setUpAccessories() {
+    
     const productContainer = document.querySelector('.accessories__products');
 
     for (let index = 0; index < products.accessories.length; index++) {
@@ -106,6 +148,7 @@ function setUpAccessories() {
         descriptionElement.innerText = products.accessories[index].description;
         priceElement.innerText = products.accessories[index].price + ' €';
         buttonElement.innerText = 'Add to bag';
+        buttonElement.id = products.accessories[index].title;
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
@@ -116,27 +159,29 @@ function setUpAccessories() {
         productContainer.appendChild(product); 
     }
 }
+
 function displayShoppingbag() {
     const shoppingbagDisplay = document.querySelector('.shoppingbag--display');
 
-    if (shoppingbagDisplay.style.display === 'block') {
-        shoppingbagDisplay.style.display = 'none';
+    if (shoppingbagDisplay.style.visibility === 'visible') {
+        shoppingbagDisplay.style.visibility = 'hidden';
     } else {
-        shoppingbagDisplay.style.display = 'block';
+        shoppingbagDisplay.style.visibility = 'visible';
     }
-
 }
-function updateShoppingbagView() {
-    const shoppingbag = document.querySelector('.shoppingbag');
-    const shoppingbagContainer = document.querySelector('.shoppingbag__container');     // container for shoppingbag content
 
-    shoppingbagContainer.innerHTML = '';    // to reset the cartview
+function updateShoppingbagView() {
+
+    const shoppingbagContainer = document.querySelector('.shoppingbag__container');
+    const shoppingbagProductContainer = document.querySelector('.shoppingbag__productContainer');
+
+    shoppingbagProductContainer.innerHTML = '';    // to reset the cartview
 
     for (let index = 0; index < shoppingbag.length; index++) {
         console.log(shoppingbag.length)
 
         const product = document.createElement('div');      // create container for product 
-        product.className = 'shoppingbag__product';
+        product.className = 'shoppingbag__product'; 
 
         const imgElement = document.createElement('img');
         const titleElement = document.createElement('h4');
@@ -150,21 +195,40 @@ function updateShoppingbagView() {
 
         imgElement.src = shoppingbag[index].file;
         titleElement.innerText = shoppingbag[index].title;
-        priceElement.innerText = shoppingbag[index].price;
+        priceElement.innerText = shoppingbag[index].price + ' €';
         removeButton.innerText = 'Remove';
+        removeButton.id = index;
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
         product.appendChild(priceElement);
         product.appendChild(removeButton);
 
-        shoppingbagContainer.appendChild(product);
-        shoppingbag.appendChild(shoppingbagContainer);
+        shoppingbagProductContainer.appendChild(product)
+        shoppingbagContainer.appendChild(shoppingbagProductContainer);
+
+        const removeButtons = document.querySelectorAll('.shoppingbag__remove');
+        [...removeButtons].forEach(button => {
+            button.addEventListener('click', removeFromBag);
+        })
+
+        updateTotalView();
+        updateTotalProducts();
     }
 }
+
+function updateTotalView() {
+    const total = document.querySelector('.shoppingbag__total');
+    total.innerHTML = totalPrice();
+}
+
+function updateTotalProducts() {
+    const totalProductsContainer = document.querySelector('.header__totalProducts');
+    totalProductsContainer.innerHTML = totalProductsCart();
+}
+
 setUpClothes();
 setUpAccessories();
-
 
 /*********** EVENT LISTENERS ***********/
 

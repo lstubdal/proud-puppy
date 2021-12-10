@@ -8,35 +8,34 @@
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="icon" type="img/svg" href="assets/icon/favicon.png" />
 </head>
+
 <body>
     <!--shoppingbag--> 
-    <div class="shoppingbag--display">
-        <div class="shoppingbag">
-            <div class="shoppingbag__container">
-                <div class="shoppingbag__headline">Order summary</div>
-                <!--div class="shoppingbag__product">
-                    <img src="assets/products/clothes/striped-shirt.png" class="shoppingbag__img"alt="product"/>
-                    <div class="shoppingbag__title">product name</div>
-                    <div class="shoppingbag__price">price</div>
-                    <div class="shoppingbag__quantity">quantity</div>
-                    <div class="shoppingbag__remove">remove</div>
-                </div-->
-            </div>    
-        </div>
+    <div class="shoppingbag shoppingbag--display">
+        <div class="shoppingbag__container">
+            <h3 class="shoppingbag__headline">Order summary</h3>
+            <div class="shoppingbag__totalContainer"> 
+                <p>Total sum: </p>
+                <p class="shoppingbag__total"></p>
+            </div>
+            <div class="shoppingbag__productContainer">
+            </div>
+        </div>    
     </div>
-    
+  
     <!--header-->
-    <header class="header">
+    <header class="header header--frontpage"> <!--header__!frontpage bg = dark/light depending on section-->
         <div class="header__search">
             <img src="assets/icon/search-dark.png" alt="search icon">
             <p class="header__text">Search</p>
         </div>
         <nav class="header__nav">
             <a href="#clothes" class="header__text header__text--large">Clothes</a>
-            <p> | </p>
+            <span> | </span>
             <a href="#accessories" class="header__text header__text--large">Accessories</a>
         </nav>
         <div class="header__shoppingbag">
+            <span class="header__totalProducts"></span>
             <img src="assets/icon/shoppingbag-dark.png" alt="shoppingbag">
             <p class="header__text">Shopping bag</p>
         </div>
@@ -61,6 +60,7 @@
                 <a href="#clothes" class="preview__link">See clothes</a>
             </div>
         </div>
+
         <div class="preview__section">
             <img src="assets/accessories.jpg" class="preview__img" alt="dog in sweather">
             <div class="preview__text">
@@ -106,5 +106,14 @@
 
     <script src="js/app.js"></script>
 </body>
-
 </html>
+
+<!-- 
+    
+    TO DO
+    - add quantity
+    - fix header color
+    - hover
+    - search
+
+-->
