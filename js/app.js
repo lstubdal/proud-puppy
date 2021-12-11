@@ -22,11 +22,11 @@ const shoppingbag = [];
 
 function addToBag(event) {
     const title = event.target.id;  
-    console.log('title', title);
 
     // if product already exist, increase quantity;
     shoppingbag.forEach((product, index) => {       
         if (product.title === title) {
+            /* increaseQuantity(product); */
             product.quantity += 1;
             shoppingbag.splice(index, 1);  
         }
@@ -47,6 +47,7 @@ function addToBag(event) {
     })
 
     updateShoppingbagView();
+    updateTotalProducts();
 }
 
 function removeFromBag(event) {
@@ -60,12 +61,43 @@ function removeFromBag(event) {
         } 
     })
 
+    emptyShoppingbagalert();
     updateShoppingbagView();
+    updateTotalProducts();
+    updateTotalPriceView();
+}
 
+function increaseQuantity(event) {
+    const index = event.currentTarget.id;
+    const quantities = document.querySelectorAll('.shoppingbag__quantity');
+    
+    [...quantities].forEach(quantity => {
+        if (quantity.id === index) {
+            quantity.innerText++;
+        }
+    })
+}
+
+function decreaseQuantity(event) {
+    const index = event.currentTarget.id;
+    const quantities = document.querySelectorAll('.shoppingbag__quantity');
+    
+    [...quantities].forEach(quantity => {
+        if (quantity.id === index) {
+            if (quantity.innerText != 1) {      // make sure quantity don't go below 1
+                quantity.innerText--;
+            }
+        }
+    })
+}
+
+function resetQuantityNumber(product) {
+    if (product.quantity > 1 ) {        // reset quantity if all of the same product is removed
+        product.quantity = 1;           
+    }
 }
 
 function totalProductsCart(){
-    console.log('length: ', shoppingbag.length)
     return shoppingbag.length;
 }
 
@@ -78,12 +110,6 @@ function totalPrice() {
     })
 
     return total + ' €'
-}
-
-function resetQuantityNumber(product) {
-    if (product.quantity > 1 ) {        // reset quantity if all of the same product is removed
-        product.quantity = 1;           
-    }
 }
 
 function setUpClothes() {
@@ -160,16 +186,6 @@ function setUpAccessories() {
     }
 }
 
-function displayShoppingbag() {
-    const shoppingbagDisplay = document.querySelector('.shoppingbag--display');
-
-    if (shoppingbagDisplay.style.visibility === 'visible') {
-        shoppingbagDisplay.style.visibility = 'hidden';
-    } else {
-        shoppingbagDisplay.style.visibility = 'visible';
-    }
-}
-
 function updateShoppingbagView() {
 
     const shoppingbagContainer = document.querySelector('.shoppingbag__container');
@@ -188,44 +204,107 @@ function updateShoppingbagView() {
         const priceElement = document.createElement('p');
         const removeButton = document.createElement('button');
 
+        const quantityContainer = document.createElement('div');
+        const decreaseElement = document.createElement('button');
+        const quantityElement = document.createElement('div');
+        const increaseElement = document.createElement('button');
+
         imgElement.className = 'shoppingbag__img';
         titleElement.className = 'shoppingbag__title';
         priceElement.className = 'shoppingbag__price';
         removeButton.className = 'shoppingbag__remove';
+        quantityContainer.className = 'shoppingbag__quantityContainer';
+        quantityElement.className = 'shoppingbag__quantity';
+        decreaseElement.className = 'shoppingbag__decrease';
+        increaseElement.className = 'shoppingbag__increase';
 
         imgElement.src = shoppingbag[index].file;
         titleElement.innerText = shoppingbag[index].title;
         priceElement.innerText = shoppingbag[index].price + ' €';
+        decreaseElement.innerText = '-';
+        quantityElement.innerText = shoppingbag[index].quantity;
+        increaseElement.innerText = '+';
         removeButton.innerText = 'Remove';
         removeButton.id = index;
+
+        quantityContainer.appendChild(decreaseElement);
+        quantityContainer.appendChild(quantityElement);
+        quantityContainer.appendChild(increaseElement);
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
         product.appendChild(priceElement);
+        product.appendChild(quantityContainer);
         product.appendChild(removeButton);
 
         shoppingbagProductContainer.appendChild(product)
         shoppingbagContainer.appendChild(shoppingbagProductContainer);
 
+        // adjust amount butttons
+        const increaseButtons = document.querySelectorAll('.shoppingbag__increase');
+        const decreaseButtons = document.querySelectorAll('.shoppingbag__decrease');
+
+        [...increaseButtons].forEach(button => {
+            button.addEventListener('click', increaseQuantity);
+        });
+
+        [...decreaseButtons].forEach(button => {
+            button.addEventListener('click', decreaseQuantity);
+        });
+
+        // remove button
         const removeButtons = document.querySelectorAll('.shoppingbag__remove');
         [...removeButtons].forEach(button => {
             button.addEventListener('click', removeFromBag);
         })
 
-        updateTotalView();
-        updateTotalProducts();
+        updateTotalPriceView();
     }
 }
 
-function updateTotalView() {
+function displayShoppingbag() {
+    const shoppingbagDisplay = document.querySelector('.shoppingbag--display');
+
+    emptyShoppingbagalert();
+
+    if (shoppingbagDisplay.style.visibility === 'visible') {
+        shoppingbagDisplay.style.visibility = 'hidden';
+    } else {
+        shoppingbagDisplay.style.visibility = 'visible';
+    }
+}
+
+function updateTotalPriceView() {
     const total = document.querySelector('.shoppingbag__total');
-    total.innerHTML = totalPrice();
+    total.innerText = totalPrice();
 }
 
 function updateTotalProducts() {
     const totalProductsContainer = document.querySelector('.header__totalProducts');
-    totalProductsContainer.innerHTML = totalProductsCart();
+    
+    if (totalProductsCart() === 0) {
+        totalProductsContainer.style.visibility = 'hidden';
+    } else {
+        totalProductsContainer.style.visibility = 'visible';
+        totalProductsContainer.innerHTML = totalProductsCart();
+    }
 }
+
+function emptyShoppingbagalert() {
+    const totalPrice = document.querySelector('.shoppingbag__totalContainer');
+    const emptyAlert = document.querySelector('.shoppingbag__emptyAlert');
+
+    if (shoppingbag.length === 0) {
+        emptyAlert.style.display = 'block';
+        totalPrice.style.display = 'none';
+    } else {
+        emptyAlert.style.display = 'none';
+        totalPrice.style.display = 'block';
+    }
+
+    updateShoppingbagView();
+}
+
 
 setUpClothes();
 setUpAccessories();
@@ -248,13 +327,22 @@ const accessoriesButtons = document.querySelectorAll('.accessories__add-to-bag')
     button.addEventListener('click', addToBag);
 })
 
+
+
+
+
 /* 
-    1. header color when scrolling
-    2. add to bag
-    3. arrow down animation
-    4. shoppingbag page
+         quantity to do:
+         - counts everyone at the same time
+         - does not update total price
+ 
+
     5. when scroll hightlight page
     6. back to top
     7. hover over product: layover and big card
+    8. total price when empty - bug
+    9. empty cart alert 
+
+    10. no count total products after 0 bug
 
 */
