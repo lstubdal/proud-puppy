@@ -26,7 +26,6 @@ function addToBag(event) {
     // if product already exist, increase quantity;
     shoppingbag.forEach((product, index) => {       
         if (product.title === title) {
-            /* increaseQuantity(product); */
             product.quantity += 1;
             shoppingbag.splice(index, 1);  
         }
@@ -69,30 +68,36 @@ function removeFromBag(event) {
 
 function increaseQuantity(event) {
     const index = event.currentTarget.id;
-    const quantities = document.querySelectorAll('.shoppingbag__quantity');
+    const quantityViews = document.querySelectorAll('.shoppingbag__quantity');
     
-    [...quantities].forEach(quantity => {
-        if (quantity.id === index) {
-            quantity.innerText++;
+    [...quantityViews].forEach(view => {
+        if (view.id === index) {
+            view.innerHTML++;
+            shoppingbag[index].quantity++;
         }
     })
+
+    updateTotalPriceView();   
 }
 
 function decreaseQuantity(event) {
     const index = event.currentTarget.id;
-    const quantities = document.querySelectorAll('.shoppingbag__quantity');
+    const quantityViews = document.querySelectorAll('.shoppingbag__quantity');
     
-    [...quantities].forEach(quantity => {
-        if (quantity.id === index) {
-            if (quantity.innerText != 1) {      // make sure quantity don't go below 1
-                quantity.innerText--;
+    [...quantityViews].forEach(view => {
+        if (view.id === index) {
+            if (view.innerHTML != 1) {      // make sure quantity don't go below 1
+                view.innerHTML--;
+                shoppingbag[index].quantity--;
             }
         }
     })
+
+    updateTotalPriceView();
 }
 
 function resetQuantityNumber(product) {
-    if (product.quantity > 1 ) {        // reset quantity if all of the same product is removed
+    if (product.quantity > 1 ) {        // reset quantity if product removed
         product.quantity = 1;           
     }
 }
@@ -109,7 +114,9 @@ function totalPrice() {
         total += tempPrice;
     })
 
-    return total + ' €'
+    totalRounded = Math.round(total * 100) / 100
+
+    return totalRounded + ' €'
 }
 
 function setUpClothes() {
@@ -205,9 +212,9 @@ function updateShoppingbagView() {
         const removeButton = document.createElement('button');
 
         const quantityContainer = document.createElement('div');
-        const decreaseElement = document.createElement('button');
+        const decreaseButton = document.createElement('button');
         const quantityElement = document.createElement('div');
-        const increaseElement = document.createElement('button');
+        const increaseButton = document.createElement('button');
 
         imgElement.className = 'shoppingbag__img';
         titleElement.className = 'shoppingbag__title';
@@ -215,21 +222,26 @@ function updateShoppingbagView() {
         removeButton.className = 'shoppingbag__remove';
         quantityContainer.className = 'shoppingbag__quantityContainer';
         quantityElement.className = 'shoppingbag__quantity';
-        decreaseElement.className = 'shoppingbag__decrease';
-        increaseElement.className = 'shoppingbag__increase';
+        decreaseButton.className = 'shoppingbag__decrease';
+        increaseButton.className = 'shoppingbag__increase';
 
         imgElement.src = shoppingbag[index].file;
         titleElement.innerText = shoppingbag[index].title;
         priceElement.innerText = shoppingbag[index].price + ' €';
-        decreaseElement.innerText = '-';
+        decreaseButton.innerText = '-';
         quantityElement.innerText = shoppingbag[index].quantity;
-        increaseElement.innerText = '+';
+        increaseButton.innerText = '+';
+        increaseButton.id = index
         removeButton.innerText = 'Remove';
+        
+        decreaseButton.id = index;
+        quantityElement.id = index;
         removeButton.id = index;
-
-        quantityContainer.appendChild(decreaseElement);
+        increaseButton.id = index
+        
+        quantityContainer.appendChild(decreaseButton);
         quantityContainer.appendChild(quantityElement);
-        quantityContainer.appendChild(increaseElement);
+        quantityContainer.appendChild(increaseButton);
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
@@ -240,7 +252,7 @@ function updateShoppingbagView() {
         shoppingbagProductContainer.appendChild(product)
         shoppingbagContainer.appendChild(shoppingbagProductContainer);
 
-        // adjust amount butttons
+        // adjust quantity butttons
         const increaseButtons = document.querySelectorAll('.shoppingbag__increase');
         const decreaseButtons = document.querySelectorAll('.shoppingbag__decrease');
 
