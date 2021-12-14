@@ -38,7 +38,6 @@ body {
 }
 
 .shoppingbag__headline {
-    font-family: var(--second);
     font-size: 2em;
     margin-left: -60%;
     text-decoration: underline 2px solid;
@@ -59,8 +58,10 @@ body {
 }
 
 .shoppingbag__increase, .shoppingbag__decrease {
-    background-color: none;
+    font-size: 1.2em;
+    background-color: var(--ligh);
     border: none;
+    cursor: pointer;
 }
 
 .shoppingbag__remove {
@@ -126,8 +127,8 @@ body {
     cursor: pointer;
     z-index: 1;
     top: 0;
-    background-color: var(--light);  
 }
+
 .header__nav {
     display: flex;
     justify-content: space-evenly;
@@ -163,9 +164,102 @@ body {
     color: var(--dark);
 }
 
-.header__search img {
-    width: 60%;
-    height: 50%;
+/**** search section *****/
+.search__sidebar {
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 40vw;
+    background-color: var(--dark);
+    padding-top: 6em;
+}
+
+.search__button {
+    border: none;
+    background: none;
+    padding-left: 1.5em;
+    cursor: pointer;
+}
+
+.search__label {
+    color: var(--dark);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-size: 1.3em;
+}
+
+.search__back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 10%;
+    width: 13%;
+    padding: 1em;
+}
+
+.search__inputContainer {
+    width: 70%;
+    display: flex;
+}
+
+.search__input {
+    width: 100%;
+    height: 80%;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.search__productContainer {
+    width: 100%;
+    margin-top: 1em;
+    background-color: var(--dark);
+    color: var(--light);
+    overflow: scroll;
+}
+
+.search__productCard {
+    display: flex;
+    height: 60%;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid;
+    padding-left: 5em;
+}
+
+.search__productCard:hover {
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.search__title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.search__description {
+    font-family: var(--sans-serif);
+    font-style: italic;
+    padding: 0px 10px 0px 10px;
+}
+
+.search__img {
+    width: 20%;
+    height: 100%;
+}
+
+.search__message {
+    text-align: center;
+    font-size: 1.5em;
+    font-family: var(--sans-serif);
+    color: var(--light);
+    padding: 20px 40px 0px 0px;
+
 }
 
 /**** frontpage *****/
@@ -187,7 +281,6 @@ body {
     font-size: 5.3em;
     margin-top: 20%;
     margin-left: -45%;
-    font-family: var(--second);
 }
 
 .frontpage__quote {
@@ -272,13 +365,13 @@ body {
     background-color: var(--dark)
 }
 
-/**** Clothes page *****/
-.clothes {
+/**** PRODUCTS *****/
+.product {
     width: 100vw;
     height: auto;
 }
 
-.clothes__header {
+.product__header {
     display: flex;
     height: 50vh;
     width: 100vw;
@@ -289,100 +382,7 @@ body {
     background-size:100%;
 }
 
-.clothes__bag img {
-    margin-left: 20%;
-}
-
-.clothes__bag p {
-    color: var(--light);
-    text-align: center;
-    font-family: var(--second);
-}
-
-.clothes__bag {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 2%;
-    cursor: pointer;
-}
-.clothes__headline {
-    font-size: 5em;
-    margin-left: 5%;
-}
-
-.clothes__text {
-    padding-top: 1%;
-    padding-left: 2%;
-    font-size: 2.3em;
-}
-
-.clothes__products {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3%;
-    width: 80vw;
-    height: 160vh;
-    margin: 0 auto;
-    margin-top: 4%;
-    margin-bottom: 8%;
-}
-
-.clothes__product {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    color: var(--dark);
-    border-radius: 10px;
-    padding: 1.5%;
-}
-
-.clothes__img {
-    height: 75%;
-    width: 65%;
-}
-
-.clothes__title {
-    font-size: 1.8em;
-}
-
-.clothes__description {
-    font-size: 1.4em;
-}
-
-.clothes__price {
-    font-size: 1.3em;
-}
-
-.clothes__add-to-bag {
-    width: 38%;
-    height: 5.6%;
-    font-size: 1.2em;
-    background: none;
-    color: var(--light);
-    border: 1px solid rgb(46, 36, 25);
-    background-color: rgb(46, 36, 25);
-    border-radius: 2px;
-    margin-top: 1%;
-}
-
-.clothes__add-to-bag:hover {
-    color: var(--light);
-    background-color:rgb(109, 86, 59);
-    border: 1px solid rgb(109, 86, 59);
-}
-
-/**** accessories *****/
-
-.accessories {
-    width: 100vw;
-    height: auto;
-}
-
-.accessories__header {
+.product__header--accessories {
     display: flex;
     height: 50vh;
     width: 100vw;
@@ -393,36 +393,34 @@ body {
     background-size:100%;
 }
 
-.accessories__headline {
-    font-size: 5em;
-    margin-left: 5%;
+.product__bag img {
+    margin-left: 20%;
 }
 
-.accessories__text {
-    padding-top: 1%;
-    padding-left: 2%;
-    font-size: 2.3em;
+.product__bag p {
+    color: var(--light);
+    text-align: center;
 }
 
-.accessories__bag {
+.product__bag {
     position: absolute;
     top: 0;
     right: 0;
     padding: 2%;
     cursor: pointer;
 }
-
-.accessories__bag img {
-    margin-left: 20%;
+.product__headline {
+    font-size: 5em;
+    margin-left: 5%;
 }
 
-.accessories__bag p {
-    color: var(--dark);
-    text-align: center;
-    font-family: var(--second);
+.product__text {
+    padding-top: 1%;
+    padding-left: 2%;
+    font-size: 2.3em;
 }
 
-.accessories__products {
+.product__clothes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 3%;
@@ -430,10 +428,21 @@ body {
     height: 160vh;
     margin: 0 auto;
     margin-top: 4%;
-    margin-bottom:10%;
+    margin-bottom: 8%;
 }
 
-.accessories__product {
+.product__accessories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3%;
+    width: 80vw;
+    height: 160vh;
+    margin: 0 auto;
+    margin-top: 4%;
+    margin-bottom: 8%;
+}
+
+.product__item {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -445,24 +454,24 @@ body {
     padding: 1.5%;
 }
 
-.accessories__img {
+.product__img {
     height: 75%;
     width: 65%;
 }
 
-.accessories__title {
+.product__title {
     font-size: 1.8em;
 }
 
-.accessories__description {
+.product__description {
     font-size: 1.4em;
 }
 
-.accessories__price {
+.product__price {
     font-size: 1.3em;
 }
 
-.accessories__add-to-bag {
+.product__add-to-bag {
     width: 38%;
     height: 5.6%;
     font-size: 1.2em;
@@ -474,7 +483,7 @@ body {
     margin-top: 1%;
 }
 
-.accessories__add-to-bag:hover {
+.product__add-to-bag:hover {
     color: var(--light);
     background-color:rgb(109, 86, 59);
     border: 1px solid rgb(109, 86, 59);
@@ -488,22 +497,22 @@ body {
     height: 23vh;
     background-color: var(--dark);
     color:var(--light);
-    font-family: var(--second);
-    padding: 1%;
+    font-family: var(--sans-serif);
+    padding-right: 3em;
 }
 
 .footer__item {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;    
+    height: 100%;   
 }
 
 .footer__title {
     display: flex;
     align-items: center;
     font-size: 2em;
-    font-family: var(--main);
+    font-family: var(--serif);
     padding: 2%;
 }
 
@@ -512,5 +521,7 @@ body {
 }
 
 .footer__text {
+    color: var(--light);
+    text-decoration: none;
     font-size: 1.2em;
  }

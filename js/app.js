@@ -1,47 +1,45 @@
-const products = {
-    clothes:[
-        {title: 'Striped sweater', description: 'Soft cotton t-shirt', price: 9.90, file: 'assets/products/clothes/striped-shirt.png', quantity: 1},
-        {title: 'Banana onsie', description: 'Cute and soft onsie', price: 12.50, file: 'assets/products/clothes/banana-onsie.png', quantity: 1},
-        {title: 'Grey raincoat', description: 'Wind and waterproof', price: 20, file: 'assets/products/clothes/grey-jacket.png', quantity: 1},
-        {title: 'Knittet turtleneck', description: 'Striped knittet onesie', price: 15.90, file: 'assets/products/clothes/knittet.png', quantity: 1},
-        {title: 'White hoodie', description: 'Soft cotton hoodie', price: 11, file: 'assets/products/clothes/white-hoodie.png', quantity: 1},
-        {title: 'White t-shirt', description: 'Soft cotton t-shirt', price: 9.90, file: 'assets/products/clothes/white-shirt.png', quantity: 1}
+const store = {
+    products:[
+
+        {title: 'Striped sweater', description: 'Soft cotton t-shirt', price: 9.90, file: 'assets/products/clothes/striped-shirt.png', quantity: 1, category: 'top'}, /* category attribute for search function */
+        {title: 'Banana onsie', description: 'Cute and soft onsie', price: 12.50, file: 'assets/products/clothes/banana-onsie.png', quantity: 1, category: 'onsie'},
+        {title: 'Grey raincoat', description: 'Wind and waterproof', price: 20, file: 'assets/products/clothes/grey-jacket.png', quantity: 1, category: 'jacket'},      
+        {title: 'Knittet turtleneck', description: 'Striped knittet onesie', price: 15.90, file: 'assets/products/clothes/knittet.png', quantity: 1, category: 'onsie'},
+        {title: 'White hoodie', description: 'Soft cotton hoodie', price: 11, file: 'assets/products/clothes/white-hoodie.png', quantity: 1, category: 'hoodie'},
+        {title: 'White t-shirt', description: 'Soft cotton t-shirt', price: 9.90, file: 'assets/products/clothes/white-shirt.png', quantity: 1, category: 'top'},
+
+        {title: 'Sunglasses', description: 'Vintage round glasses', price: 5.90, file: 'assets/products/accessories/sunglasses.png', quantity: 1, category: 'sunglasses'},
+        {title: 'Beanie', description: 'Orange beanie', price: 8.90, file: 'assets/products/accessories/beanie.png', quantity: 1, category: 'hat'},
+        {title: 'Red bandana', description: 'Red cotton scarf', price: 3, file: 'assets/products/accessories/scarf.png', quantity: 1, category: 'scarf'},
+        {title: 'Batman costume', description: 'Nylon custome', price: 15, file: 'assets/products/accessories/batman.png', quantity: 1, category: 'costume'},
+        {title: 'Dark sunglasses', description: 'Retro sunglasses', price: 6.90, file: 'assets/products/accessories/dark-sunglasses.png', quantity: 1, category: 'sunglasses'},
+        {title: 'Santa hat', description: 'Christmas hat', price: 13, file: 'assets/products/accessories/christmas-hat.png', quantity: 1, category: 'hat'},
     ],
 
-    accessories: [
-        {title: 'Sunglasses', description: 'Vintage round glasses', price: 5.90, file: 'assets/products/accessories/sunglasses.png', quantity: 1},
-        {title: 'Beanie', description: 'Orange beanie', price: 8.90, file: 'assets/products/accessories/beanie.png', quantity: 1},
-        {title: 'Red bandana', description: 'Red cotton scarf', price: 3, file: 'assets/products/accessories/scarf.png', quantity: 1},
-        {title: 'Batman costume', description: 'Nylon custome', price: 15, file: 'assets/products/accessories/batman.png', quantity: 1},
-        {title: 'Dark sunglasses', description: 'Retro sunglasses', price: 6.90, file: 'assets/products/accessories/dark-sunglasses.png', quantity: 1},
-        {title: 'Santa hat', description: 'Christmas hat', price: 13, file: 'assets/products/accessories/christmas-hat.png', quantity: 1},
-    ]
-}
+    shoppingbag: [],
 
-const shoppingbag = [];
+    messages: [
+        'Your shoppingbag is empty',
+        'Sorry, could not find product'
+    ]
+
+}
 
 function addToBag(event) {
     const title = event.target.id;  
 
     // if product already exist, increase quantity;
-    shoppingbag.forEach((product, index) => {       
+    store.shoppingbag.forEach((product, index) => {       
         if (product.title === title) {
             product.quantity += 1;
-            shoppingbag.splice(index, 1);  
+            store.shoppingbag.splice(index, 1);  
         }
     }) 
 
-    // add clothes 
-    products.clothes.forEach(product => {
+    // add products 
+    store.products.forEach(product => {
         if (product.title === title) {
-            shoppingbag.push(product);
-        } 
-    })
-
-    // add accessories
-    products.accessories.forEach(product => {
-        if (product.title === title) {
-            shoppingbag.push(product);
+            store.shoppingbag.push(product);
         } 
     })
 
@@ -51,12 +49,12 @@ function addToBag(event) {
 
 function removeFromBag(event) {
     const index = event.target.id;
-    const currentProductTitle = shoppingbag[index].title;
+    const currentProductTitle = store.shoppingbag[index].title;
 
-    shoppingbag.forEach(product => {
+    store.shoppingbag.forEach(product => {
         if (currentProductTitle === product.title) {
             resetQuantityNumber(product)
-            shoppingbag.splice(index, 1);
+            store.shoppingbag.splice(index, 1);
         } 
     })
 
@@ -73,7 +71,7 @@ function increaseQuantity(event) {
     [...quantityViews].forEach(view => {
         if (view.id === index) {
             view.innerHTML++;
-            shoppingbag[index].quantity++;
+            store.shoppingbag[index].quantity++;
         }
     })
 
@@ -88,7 +86,7 @@ function decreaseQuantity(event) {
         if (view.id === index) {
             if (view.innerHTML != 1) {      // make sure quantity don't go below 1
                 view.innerHTML--;
-                shoppingbag[index].quantity--;
+                store.shoppingbag[index].quantity--;
             }
         }
     })
@@ -103,64 +101,27 @@ function resetQuantityNumber(product) {
 }
 
 function totalProductsCart(){
-    return shoppingbag.length;
+    return store.shoppingbag.length;
 }
 
 function totalPrice() {
     let total = 0;
 
-    shoppingbag.forEach(product => {
+    store.shoppingbag.forEach(product => {
         let tempPrice = product.price * product.quantity;
         total += tempPrice;
     })
 
-    totalRounded = Math.round(total * 100) / 100
+    totalRounded = Math.round(total * 100) / 100        /* limit price to one decimal */
 
     return totalRounded + ' €'
 }
 
-function setUpClothes() {
+function setUpProducts() {
+    const productContainerClothes = document.querySelector('.product__clothes');
+    const productContainerAccessories = document.querySelector('.product__accessories');
 
-    const product_container = document.querySelector('.clothes__products');
-
-    for (let index = 0; index < products.clothes.length; index++) {
-
-        const product = document.createElement('div');                               
-        const imgElement = document.createElement('img');                      
-        const titleElement = document.createElement('h3');
-        const descriptionElement = document.createElement('p');
-        const priceElement = document.createElement('div');
-        const buttonElement = document.createElement('button');
-
-        product.className = 'clothes__product';
-        imgElement.className = 'clothes__img';
-        titleElement.className = 'clothes__title';
-        descriptionElement.className = 'clothes__description';
-        priceElement.className = 'clothes__price';
-        buttonElement.className = 'clothes__add-to-bag';
-
-        imgElement.src = products.clothes[index].file;
-        titleElement.innerText = products.clothes[index].title;
-        descriptionElement.innerText = products.clothes[index].description;
-        priceElement.innerText = products.clothes[index].price + ' €';
-        buttonElement.innerText = 'Add to bag';
-        buttonElement.id = products.clothes[index].title;       // add ID to products for addToBag/removeFromBag function
-
-        product.appendChild(imgElement);
-        product.appendChild(titleElement);
-        product.appendChild(descriptionElement);
-        product.appendChild(priceElement);
-        product.appendChild(buttonElement);
-
-        product_container.appendChild(product); 
-    }
-}
-
-function setUpAccessories() {
-    
-    const productContainer = document.querySelector('.accessories__products');
-
-    for (let index = 0; index < products.accessories.length; index++) {
+    for (let index = 0; index < store.products.length; index++) {
 
         const product = document.createElement('div');                               
         const imgElement = document.createElement('img');                      
@@ -169,19 +130,19 @@ function setUpAccessories() {
         const priceElement = document.createElement('div');
         const buttonElement = document.createElement('button');
 
-        product.className = 'accessories__product';
-        imgElement.className = 'accessories__img';
-        titleElement.className = 'accessories__title';
-        descriptionElement.className = 'accessories__description';
-        priceElement.className = 'accessories__price';
-        buttonElement.className = 'accessories__add-to-bag';
+        product.className = 'product__item';
+        imgElement.className = 'product__img';
+        titleElement.className = 'product__title';
+        descriptionElement.className = 'product__description';
+        priceElement.className = 'product__price';
+        buttonElement.className = 'product__add-to-bag';
 
-        imgElement.src = products.accessories[index].file;
-        titleElement.innerText = products.accessories[index].title;
-        descriptionElement.innerText = products.accessories[index].description;
-        priceElement.innerText = products.accessories[index].price + ' €';
+        imgElement.src = store.products[index].file;
+        titleElement.innerText = store.products[index].title;
+        descriptionElement.innerText = store.products[index].description;
+        priceElement.innerText = store.products[index].price + ' €';
         buttonElement.innerText = 'Add to bag';
-        buttonElement.id = products.accessories[index].title;
+        buttonElement.id = store.products[index].title;        /* add ID to products for addToBag/removeFromBag function */
 
         product.appendChild(imgElement);
         product.appendChild(titleElement);
@@ -189,7 +150,12 @@ function setUpAccessories() {
         product.appendChild(priceElement);
         product.appendChild(buttonElement);
 
-        productContainer.appendChild(product); 
+        if (index <= 5) {                                                /* seperate clothes and acceccories on webside */
+            productContainerClothes.appendChild(product); 
+        
+        } else {
+            productContainerAccessories.appendChild(product)
+        } 
     }
 }
 
@@ -200,8 +166,8 @@ function updateShoppingbagView() {
 
     shoppingbagProductContainer.innerHTML = '';    // to reset the cartview
 
-    for (let index = 0; index < shoppingbag.length; index++) {
-        console.log(shoppingbag.length)
+    for (let index = 0; index < store.shoppingbag.length; index++) {
+        console.log(store.shoppingbag.length)
 
         const product = document.createElement('div');      // create container for product 
         product.className = 'shoppingbag__product'; 
@@ -225,11 +191,11 @@ function updateShoppingbagView() {
         decreaseButton.className = 'shoppingbag__decrease';
         increaseButton.className = 'shoppingbag__increase';
 
-        imgElement.src = shoppingbag[index].file;
-        titleElement.innerText = shoppingbag[index].title;
-        priceElement.innerText = shoppingbag[index].price + ' €';
+        imgElement.src = store.shoppingbag[index].file;
+        titleElement.innerText = store.shoppingbag[index].title;
+        priceElement.innerText = store.shoppingbag[index].price + ' €';
         decreaseButton.innerText = '-';
-        quantityElement.innerText = shoppingbag[index].quantity;
+        quantityElement.innerText = store.shoppingbag[index].quantity;
         increaseButton.innerText = '+';
         increaseButton.id = index
         removeButton.innerText = 'Remove';
@@ -306,8 +272,9 @@ function emptyShoppingbagalert() {
     const totalPrice = document.querySelector('.shoppingbag__totalContainer');
     const emptyAlert = document.querySelector('.shoppingbag__emptyAlert');
 
-    if (shoppingbag.length === 0) {
+    if (store.shoppingbag.length === 0) {
         emptyAlert.style.display = 'block';
+        emptyAlert.innerText = store.messages[0];
         totalPrice.style.display = 'none';
     } else {
         emptyAlert.style.display = 'none';
@@ -317,9 +284,83 @@ function emptyShoppingbagalert() {
     updateShoppingbagView();
 }
 
+function changeHeaderColor() {
+    const header = document.querySelector('.header--frontpage');
+    if (window.scrollY > 550) {
+        header.style.backgroundColor = '#f1ebde';
+    } 
 
-setUpClothes();
-setUpAccessories();
+    if (window.scrollY < 550) {
+        header.style.backgroundColor = 'none';
+    }
+}
+
+function searchProducts() {                                              /* bug fix -> don't work again after wrong search */
+    const productContainer = document.querySelector('.search__productContainer');
+    
+    const input = document.querySelector('.search__input').value        /* get input text from user */
+
+    const searchProducts = []                                       
+
+    for (let index = 0; index < store.products.length; index++) {       /*  add users productsearch if match, then add to list */
+        if (input === store.products[index].title || input === store.products[index].category) {
+            product = store.products[index];
+            searchProducts.push(product); 
+        } 
+    }
+
+    if (searchProducts.length === 0) {
+        productContainer.className = 'search__message';
+        productContainer.innerText = store.messages[1];
+    
+    } else {
+        searchProducts.forEach(product => {
+            showSearchProduct(product, productContainer)        /* show products that matches users search */
+        })
+    }
+}
+
+function showSearchProduct(product, productContainer) {
+    
+    const productCard = document.createElement('div');
+    productCard.className = 'search__productCard search__productCard--notInSearch';
+
+    const img = document.createElement('img');
+    const title = document.createElement('p');
+    const description = document.createElement('p');
+    const category = document.createElement('p');
+
+    img.src = product.file;
+    title.innerText = product.title;
+    description.innerText = product.description;
+    category.innerText = product.category;
+
+    img.className = 'search__img';
+    title.className = 'search__title';
+    description.className = 'search__description';
+    category.className = 'search__category';
+
+    productCard.appendChild(img);
+    productCard.appendChild(title);
+    productCard.appendChild(description);
+    productCard.appendChild(category)
+
+    productContainer.appendChild(productCard);
+}
+
+function displaySearchSidebar() {
+    const sidebar = document.querySelector('.search__sidebar');
+
+    if (sidebar.style.visibility === 'visible') {
+        sidebar.style.visibility = 'hidden';
+    } else {
+        sidebar.style.visibility = 'visible';
+    }
+
+}
+
+setUpProducts()
+
 
 /*********** EVENT LISTENERS ***********/
 
@@ -328,33 +369,23 @@ const shoppingbagButton = document.querySelector('.header__shoppingbag');
 shoppingbagButton.addEventListener('click', displayShoppingbag);
 
 /* add to bag */
-const clothesButtons = document.querySelectorAll('.clothes__add-to-bag');
-const accessoriesButtons = document.querySelectorAll('.accessories__add-to-bag');
+const clothesButtons = document.querySelectorAll('.product__add-to-bag');
 
 [...clothesButtons].forEach(button => {
     button.addEventListener('click', addToBag);
 });
 
-[...accessoriesButtons].forEach(button => {
-    button.addEventListener('click', addToBag);
-})
+/* show search sidebar */
+const searchSidebar = document.querySelector('.search__icon');
+searchSidebar.addEventListener('click', displaySearchSidebar);
 
+/* return search sidebar */
+const returnSidebar = document.querySelector('.search__back');
+returnSidebar.addEventListener('click', displaySearchSidebar)
 
+/* search products */
+const searchButton = document.querySelector('.search__button');
+searchButton.addEventListener('click', searchProducts);
 
-
-
-/* 
-         quantity to do:
-         - counts everyone at the same time
-         - does not update total price
- 
-
-    5. when scroll hightlight page
-    6. back to top
-    7. hover over product: layover and big card
-    8. total price when empty - bug
-    9. empty cart alert 
-
-    10. no count total products after 0 bug
-
-*/
+/* scroll listener */
+window.addEventListener('scroll', changeHeaderColor);
