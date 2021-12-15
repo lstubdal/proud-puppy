@@ -17,14 +17,11 @@ const store = {
     ],
 
     shoppingbag: [],
-
     messages: [
         'Your shoppingbag is empty',
         'Sorry, could not find product'
     ]
-
 }
-
 function addToBag(event) {
     const title = event.target.id;  
 
@@ -160,7 +157,6 @@ function setUpProducts() {
 }
 
 function updateShoppingbagView() {
-
     const shoppingbagContainer = document.querySelector('.shoppingbag__container');
     const shoppingbagProductContainer = document.querySelector('.shoppingbag__productContainer');
 
