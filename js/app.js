@@ -17,15 +17,17 @@ const store = {
     ],
 
     shoppingbag: [],
+
     messages: [
         'Your shoppingbag is empty',
         'Sorry, could not find product'
     ]
 }
-function addToBag(event) {
-    const title = event.target.id;  
 
-    // if product already exist, increase quantity;
+function addToBag(event) {
+    const title = event.target.id;  /* access id that triggered event */
+
+    /* if product already exist, increase quantity; */
     store.shoppingbag.forEach((product, index) => {       
         if (product.title === title) {
             product.quantity += 1;
@@ -33,7 +35,6 @@ function addToBag(event) {
         }
     }) 
 
-    // add products 
     store.products.forEach(product => {
         if (product.title === title) {
             store.shoppingbag.push(product);
@@ -50,7 +51,7 @@ function removeFromBag(event) {
 
     store.shoppingbag.forEach(product => {
         if (currentProductTitle === product.title) {
-            resetQuantityNumber(product)
+            resetQuantityNumber(product)        /* reset quanrtity if product removed */
             store.shoppingbag.splice(index, 1);
         } 
     })
@@ -67,8 +68,8 @@ function increaseQuantity(event) {
     
     [...quantityViews].forEach(view => {
         if (view.id === index) {
-            view.innerHTML++;
-            store.shoppingbag[index].quantity++;
+            view.innerHTML++;       /* update quanitty view */
+            store.shoppingbag[index].quantity++;        /* update quanitty in product */
         }
     })
 
@@ -81,7 +82,7 @@ function decreaseQuantity(event) {
     
     [...quantityViews].forEach(view => {
         if (view.id === index) {
-            if (view.innerHTML != 1) {      // make sure quantity don't go below 1
+            if (view.innerHTML != 1) {       /* make sure quantity don't go below 1 */
                 view.innerHTML--;
                 store.shoppingbag[index].quantity--;
             }
@@ -92,7 +93,7 @@ function decreaseQuantity(event) {
 }
 
 function resetQuantityNumber(product) {
-    if (product.quantity > 1 ) {        // reset quantity if product removed
+    if (product.quantity > 1 ) {         /* reset quantity if product removed */
         product.quantity = 1;           
     }
 }
@@ -110,7 +111,6 @@ function totalPrice() {
     })
 
     totalRounded = Math.round(total * 100) / 100        /* limit price to one decimal */
-
     return totalRounded + ' €'
 }
 
@@ -119,7 +119,6 @@ function setUpProducts() {
     const productContainerAccessories = document.querySelector('.product__accessories');
 
     for (let index = 0; index < store.products.length; index++) {
-
         const product = document.createElement('div');                               
         const imgElement = document.createElement('img');                      
         const titleElement = document.createElement('h3');
@@ -134,7 +133,7 @@ function setUpProducts() {
         priceElement.className = 'product__price';
         buttonElement.className = 'product__add-to-bag';
 
-        imgElement.src = store.products[index].file;
+        imgElement.src = store.products[index].file
         titleElement.innerText = store.products[index].title;
         descriptionElement.innerText = store.products[index].description;
         priceElement.innerText = store.products[index].price + ' €';
@@ -147,7 +146,7 @@ function setUpProducts() {
         product.appendChild(priceElement);
         product.appendChild(buttonElement);
 
-        if (index <= 5) {                                                /* seperate clothes and acceccories on webside */
+        if (index <= 5) {                                              /* seperate clothes and acceccories on webside */
             productContainerClothes.appendChild(product); 
         
         } else {
@@ -291,7 +290,7 @@ function changeHeaderColor() {
     }
 }
 
-function searchProducts() {                                              /* bug fix -> don't work again after wrong search */
+function searchProducts() {     /* bug fix -> don't work again after wrong search */
     const productContainer = document.querySelector('.search__productContainer');
     
     const input = document.querySelector('.search__input').value        /* get input text from user */
@@ -317,9 +316,8 @@ function searchProducts() {                                              /* bug 
 }
 
 function showSearchProduct(product, productContainer) {
-    
     const productCard = document.createElement('div');
-    productCard.className = 'search__productCard search__productCard--notInSearch';
+    productCard.className = 'search__productCard';
 
     const img = document.createElement('img');
     const title = document.createElement('p');
@@ -356,7 +354,6 @@ function displaySearchSidebar() {
 }
 
 setUpProducts()
-
 
 /*********** EVENT LISTENERS ***********/
 
